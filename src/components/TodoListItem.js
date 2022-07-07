@@ -8,17 +8,25 @@ import './TodoListItem.scss';
 import React from 'react';
 
 // 컴포넌트 React.memo 함수로 감싸서 todo, onRemove, onToggle값이 바뀔때만 리렌더링 됨
-const TodoListItem = ({ todo, onRemove, onToggle }) => {
+const TodoListItem = ({ todo, onRemove, onToggle, style }) => {
   const { id, text, checked } = todo;
 
+// - render 함수에서 div로 감싸고 해당 div에 className 설정
+//    props 로 받아온 style도 적용
+// - 여기서 TodoListItem-virtualized 클래스 만든 이유
+// → 컴포넌트 사이사이에 테두리를 제대로 쳐주고
+// → 홀/짝 항목에 다른 색상 설정
+
   return (
-    <div className='TodoListItem'>
-      <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
-        {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
-        <div className='text'>{text}</div>
-      </div>
-      <div className='remove' onClick={() => onRemove(id)}>
-        <MdRemoveCircleOutline />
+    <div className='TodoListItem-virtualized' style={style}>
+      <div className='TodoListItem'>
+        <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
+          {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+          <div className='text'>{text}</div>
+        </div>
+        <div className='remove' onClick={() => onRemove(id)}>
+          <MdRemoveCircleOutline />
+        </div>
       </div>
     </div>
   );
